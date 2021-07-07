@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Create an account">
+        <title>Event Scheduler</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
+    <body>
+        <div class="formwrapper">
+        {% if profile %}
+            <h2 class="title">Edit profile</h2>
+            <form method="POST" action="{{ url_for('edit_profile', user_id=profile.id) }}" enctype="multipart/form-data">
+        {% else %}
+            <h2 class="title">Register</h2>
+            <form method="POST" action="/register" enctype="multipart/form-data">
+        {% endif %}
+                <div class="form-field">{{ form.firstname.label }} {{ form.firstname }}
+                    {% if form.firstname.errors %}
+                    <ul class="errors">
+                        {% for error in form.firstname.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.lastname.label }} {{ form.lastname }}
+                    {% if form.lastname.errors %}
+                    <ul class="errors">
+                        {% for error in form.lastname.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {% if profile %}
+                <div class="form-field"><label>Email </label> <input type="text" name="email" value="{{profile.email}}"/>
+                    {% if email_errors %}
+                    <ul class="errors">
+                        {% for error in email_errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="form-field">{{ form.email.label }} {{ form.email }}
+                    {% if form.email.errors %}
+                    <ul class="errors">
+                        {% for error in form.email.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="form-field">{{ form.password.label }} {{ form.password }}
+                    {% if form.password.errors %}
+                    <ul class="errors">
+                        {% for error in form.password.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.confirmPassword.label }} {{ form.confirmPassword }}
+                    {% if form.confirmPassword.errors %}
+                    <ul class="errors">
+                        {% for error in form.confirmPassword.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field" id="imageField">{{ form.image.label }} {{ form.image }}
+                    {% if form.image.errors %}
+                    <ul class="errors">
+                        {% for error in form.image.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit }}
+            </form>
+
+        </div>
+        {% if profile %}
+        
+        {% else %}
+        <h3>Back to <a href="{{ url_for('login') }}"> login </a></h3>
+        {% endif %}
+    </body>
+</html>

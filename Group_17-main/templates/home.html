@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Event Scheduler App">
+        <title>Events | Event Scheduler</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
+    <body>
+
+
+    <header>
+        <div>
+            <a id="upperRight1">!</a><a id="upperRight1" href="{{ url_for('view_profile', user_id=current_user) }}">{{user}}</a><a id="upperRight1">Hello,&nbsp;</a>
+            <a href="/" class="headtext">Event Planner</a>
+        </div>
+        <nav>
+            <a href="{{ url_for('signout') }}" id="upperRight2">Sign Out</a>
+        </nav>
+    </header>
+
+
+
+    <br>
+        <div class="formwrapper">
+
+            <form action="{{ url_for('create_event') }}" method="post">
+                  <input type="submit" value="Create event" style="float: top">
+            </form>
+            
+            <table>
+                <tr>
+                    <th>Attending</th>
+                    <th>Event</th>
+                    <th>Organizer</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                </tr>
+                {% for event, user, rsvp in table %}
+                <tr>
+                {% if rsvp.user_id == current_user or event.user_id == current_user %}
+                    <td>*</td>
+                {% else %}
+                    <td> </td>
+                {% endif %}
+                    <td><a href="{{url_for('view_event', event_id=event.id)}}">{{ event.eventName }}</a></td>
+                    <td><a href="{{url_for('view_profile', user_id=user.id)}}">{{ user.firstName }}</a></td>
+                    <td><a> {{ event.dateTime.strftime("%#m/%#d/%Y") }}</a></td>
+                    <td><a>{{ event.dateTime.strftime("%#I:%M%p") }}</a></td>
+                    <td><a>{{ event.location }}</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>
